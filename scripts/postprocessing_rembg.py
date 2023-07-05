@@ -16,11 +16,11 @@ models = [
 ]
 
 class ScriptPostprocessingRembg(scripts_postprocessing.ScriptPostprocessing):
-  name = "Rembg"
+  name = "SD-Rembg"
   order = 10000
   model = None
 
-  def ui(self):
+  def ui( self ):
     with FormRow():
       model = gr.Dropdown( label='Remove BG (删除背景)', value="None", choices=models )
       mask = gr.Checkbox( label='Mask (返回遮罩)', value=False )
@@ -43,5 +43,15 @@ class ScriptPostprocessingRembg(scripts_postprocessing.ScriptPostprocessing):
     rembg_alpha_cutout ):
     if rembg_model == "None":
       return
+
+    img.image = rembg.remove(
+      img.image,
+      session=rembg.new_session(rembg_model),
+      only_mask=rembg_mask,
+      alpha_matting=rembg_alpha_cutout
+      # alpha_matting_foreground_threshold=alpha_matting_foreground_threshold,
+      # alpha_matting_background_threshold=alpha_matting_background_threshold,
+      # alpha_matting_erode_size=alpha_matting_erode_size,
+    )
 
     img.info['Rembg'] = rembg_model
