@@ -7,13 +7,13 @@ import rembg
 models = [
   'None',
   'u2net', # 用于一般用例的预训练模型
-  'u2netp', # u2net模型的轻量级版本
+  # 'u2netp', # u2net模型的轻量级版本
   'u2net_human_seg', # 用于人工分割的预训练模型
-  'u2net_cloth_seg', # 从人类肖像中用于布料解析的预训练模型。这里的衣服被解析为3类：上半身，下半身和全身。
-  'silueta', # 与u2net相同，但大小减少到43Mb
+  'u2net_cloth_seg', # 从人类肖像中用于布料解析的预训练模型。这里的衣服被解析为3类：上半身，下半身和全身。在rembg中支持的并不好，目前只能通过使用蒙版的形式显示
+  # 'silueta', # 与u2net相同，但大小减少到43Mb
   'isnet-general-use', # 用于一般用例的新预训练模型
   'isnet-anime', # 动漫角色的高精度分割
-  'sam' # 适用于任何用例的预训练模型
+  # 'sam' # 适用于任何用例的预训练模型
 ]
 
 class ScriptPostprocessingRembg(scripts_postprocessing.ScriptPostprocessing):
