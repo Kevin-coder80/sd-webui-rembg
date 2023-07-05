@@ -26,7 +26,6 @@ class ScriptPostprocessingRembg(scripts_postprocessing.ScriptPostprocessing):
       model = gr.Dropdown( label='Remove BG 删除背景', value="None", choices=models )
       mask = gr.Checkbox( label='Mask 返回遮罩', value=False )
       invert_mask = gr.Checkbox( label='Invert Mask 反转遮罩', value=False )
-      alpha_cutout = gr.Checkbox( label='Advanced options 抠图参数选项', value=False )
 
     with FormRow():
       background_color = gr.ColorPicker( label="Background color 背景颜色", default=(0, 0, 0) )
@@ -34,10 +33,13 @@ class ScriptPostprocessingRembg(scripts_postprocessing.ScriptPostprocessing):
     with FormRow():
       background_opacity = gr.Slider( label="Transparent 背景透明", minimum=0, maximum=255, step=1, value=0 )
 
-    with FormRow(visible=False) as alpha_mask_row:
-      alpha_cutout_erode_size = gr.Slider(label="Erode size 侵蚀大小", minimum=0, maximum=255, step=1, value=0)
-      alpha_cutout_foreground_threshold = gr.Slider(label="Foreground threshold 前景阈值", minimum=0, maximum=255, step=1, value=0)
-      alpha_cutout_background_threshold = gr.Slider(label="Background threshold 背景阈值", minimum=0, maximum=255, step=1, value=0)
+    with FormRow():
+      alpha_cutout = gr.Checkbox( label='Advanced options 抠图参数选项', value=False )
+
+      with FormRow(visible=False) as alpha_mask_row:
+        alpha_cutout_erode_size = gr.Slider(label="Erode size 侵蚀大小", minimum=0, maximum=255, step=1, value=0)
+        alpha_cutout_foreground_threshold = gr.Slider(label="Foreground threshold 前景阈值", minimum=0, maximum=255, step=1, value=0)
+        alpha_cutout_background_threshold = gr.Slider(label="Background threshold 背景阈值", minimum=0, maximum=255, step=1, value=0)
 
     alpha_cutout.change(
         fn=lambda x: gr.update(visible=x),
