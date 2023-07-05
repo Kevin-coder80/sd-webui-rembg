@@ -17,3 +17,7 @@ else:
 
   if not launch.is_installed('onnxruntime'):
     launch.run_pip(f"install onnxruntime")
+
+for dep in ['pymatting', 'pooch']:
+  if not launch.is_installed(dep):
+    launch.run_pip( f"install {dep}", f"{dep} is extension for rembg." )

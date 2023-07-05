@@ -1,9 +1,9 @@
-from modules import scripts_postprocessing as sp
+from modules import scripts_postprocessing
 from modules.ui_components import FormRow
 import gradio as gr
 import rembg
 
-modeles = [
+models = [
   'None',
   'u2net', # 用于一般用例的预训练模型
   'u2netp', # u2net模型的轻量级版本
@@ -15,30 +15,33 @@ modeles = [
   'sam' # 适用于任何用例的预训练模型
 ]
 
-class Script():
-  name = 'sd-rembg'
+class ScriptPostprocessingRembg(scripts_postprocessing.ScriptPostprocessing):
+  name = "Rembg"
+  order = 10000
   model = None
 
-  def ui( self ):
+  def ui(self):
     with FormRow():
-      model = gr.Dropdown( label='Remove BG (删除背景)', value="None", choices=modeles )
+      model = gr.Dropdown( label='Remove BG (删除背景)', value="None", choices=models )
       mask = gr.Checkbox( label='Mask (返回遮罩)', value=False )
       invert_mask = gr.Checkbox( label='Invert Mask (反转遮罩)', value=False )
       alpha_cutout = gr.Checkbox( label='Alpha Cutout (Alpha抠图)', value=False )
 
     return {
-      model,
-      mask,
-      invert_mask,
-      alpha_cutout
+      'rembg_model': model,
+      'rembg_mask': mask,
+      'rembg_invert_mask': invert_mask,
+      'rembg_alpha_cutout': alpha_cutout
     }
 
   def process(
     self,
-    img: sp.PostprocessedImage,
-    model,
-    mask,
-    invert_mask,
-    alpha_cutout ):
-    if model == 'None':
+    img: scripts_postprocessing.PostprocessedImage,
+    rembg_model,
+    rembg_mask,
+    rembg_invert_mask,
+    rembg_alpha_cutout ):
+    if rembg_model == "None":
       return
+
+    img.info['Rembg'] = rembg_model
